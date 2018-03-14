@@ -44,6 +44,8 @@ $ git diff readme.md #查看修改内容
 
 ```
 $ git log #查看历史记录
-$ git log --pretty=oneline
+$ git log --pretty=oneline #查看历史记录, 一条条的显示
+$ git reset -hard HEAD^ #回退到上一个版本
+$ git reset -hard 65244 #回退到任意一个版本, 数字是commit id, 在之前的git log里面可以看到
 ```
 
