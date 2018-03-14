@@ -23,16 +23,11 @@ $ mkdir git #创建一个空目录
 $ cd git
 $ pwd #用于显示当前目录
 $ git init #初始化空目录
-$ ls -ah #显示所有目录
+$ ls -ah #显示所有目录(包括隐藏文件)
 .  ..  .git
 
 ******编写一个readme.md文件放在git目录下***
 $ git add readme.md
-$ git commit -m "wrote a readme file"
-*****有可能会提示你"Please tell me who you are"***
-$ git config --global user.email "291882747@qq.com"
-$ git config --global user.name "ANRhine"
-*****继续提交****
 $ git commit -m "wrote a readme file"
 ```
 
