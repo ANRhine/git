@@ -99,3 +99,35 @@ $ git commit -m "remove test.md" #删除后也需要提交
 $ git checkout -- test.md #误删只有可以恢复
 ```
 
+#远程仓库
+
+Git的杀手级功能之一: 远程仓库
+
+注册GitHub账号, 免费获得Git远程仓库. GitHub支持SSH协议, 只要知道了你的公钥, 就可以确认你在推送.
+
+**第1步**,创建SSH Key, 一路回车,使用默认
+
+```
+$ ssh-keygen -t rsa -C "youremail@example.com" 
+$ ls -ah #会出现.ssh文件夹,内有id_rsa(私钥)和id_rsa.pub(公钥)两个文件
+```
+
+**第2步**,登录GitHub,打开"Account setting", "SSH Keys"页面:
+
+然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容
+
+点“Add Key”，你就应该看到已经添加的Key：
+
+## 添加远程库
+
+实现本地库与远程库同步, GitHub上的仓库既可以作为备份, 又可以让其他人通过该仓库来协作.
+
+第1步, 登录GitHub, "Create a new repository", 创建一个新仓库, 保持默认设置创建即可.
+
+第2步, 根据GitHub提示, 在本地的git仓库下运行命令:
+
+```
+$ git remote add origin git@github.com:ANRhine/git.git #ANRhine是自己的GitHub账户名, origin是Git远程库的默认叫法
+$ git push -u origin master #把本地库的所有内容推送到远程库上, 第一次推送需要加上-u参数, 之后可简化
+```
+
