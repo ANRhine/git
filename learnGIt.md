@@ -275,3 +275,82 @@ $ git stash list #查看发现没有任何stash内容
 开发一个新feature，最好新建一个分支；
 
 如果要丢弃一个没有被合并过的分支，可以通过`git branch -D <name>`强行删除。
+
+## 多人协作
+
+```
+$ git remote -v #查看远程库信息, 显示可以抓取和推送的origin地址
+origin	git@github.com:ANRhine/git.git (fetch)
+origin	git@github.com:ANRhine/git.git (push)
+```
+
+**推送分支:**
+
+```
+$ git push origin master #推送主分支
+$ git push origin dev #推送其他分支
+```
+
+1.master分支是主分支, 因此要时刻与远程同步;
+
+2.dev分支是开发分支, 团队所有成员都需要在上面工作, 所有也需要与远程同步;
+
+3.bug分支只用于在本地修复bug, 没必要推到远程;
+
+4.feature分支是否推到远程, 取决于你是否和你的小伙伴合作在上面开发.
+
+**抓取分支:**
+
+```
+$ git clone git@github.com:ANRhine/git.git #模拟小伙伴从远程库clone
+$ git checkout -b dev origin/dev #如果要在dev分支上开发, 则需要创建本地dev分支
+*****如果两人对同样的文件作修改, 并试图推送, 会产生冲突*****
+$ git pull #先用git pull把最新的提交从origin/dev抓下来, 然后, 在本地合并, 解决冲突, 再推送
+$ git branch --set-upstream dev origin/dev #git pull之前要先指定本地dev分支与远程origin/dev分支的链接, 再pull
+$ git pull
+```
+
+因此, 多人协作的工作模式通常是这样的:
+
+1.首先，可以试图用`git push origin branch-name`推送自己的修改;
+
+2.如果推送失败，则因为远程分支比你的本地更新，需要先用`git pull`试图合并；
+
+3.如果合并有冲突，则解决冲突，并在本地提交；
+
+4.没有冲突或者解决掉冲突后，再用`git push origin branch-name`推送就能成功！
+
+如果`git pull`提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，用命令`git branch --set-upstream branch-name origin/branch-name`。
+
+# 标签管理
+
+发布一个版本时, 通常先在版本中打一个标签(tag), 这样, 就唯一确定打标签时刻的版本. 将来去论什么时候, 取某个标签的版本, 就是把那个打标签的时刻的历史版本取出来. 所以, 标签也是版本库的一个快照.
+
+Git的标签虽然是版本库的快照, 但其实它就是指向某个commit的指针(和分支很像, 但分支可以移动, 标签不能移动), 所以, 创建和删除标签都是瞬间完成的.
+
+## 创建标签
+
+```
+$ git branch master #切换到要打标签的分支上
+$ git tag v1.0 #打标签
+$ git tag #查看所有标签
+$ git log --pretty=oneline --abbrev-commit #找到历史提价的commit id, 为之前提交的内容打标签
+$ git tag v0.9 3293 #比如对应的commit id是3293, 打上标签
+$ git tag #查看所有标签
+$ git show v0.9 #查看标签信息
+$ git tag -a v0.1 -m "verison 0.1 released" 439489 #创建带有说明的标签
+$ git show v0.1 #查看标签信息
+```
+
+## 操作标签
+
+```
+$ git tag -d v0.1 #删除标签
+$ git push origin v1.0 #将标签推送到远程
+$ git push origin --tags #一次性推送所有标签
+******标签已经推送到远程, 要删除怎么办*****
+$ git tag -d v0.9 #先从本地删除
+$ git push origin :refs/tags/v0.9 #再从远程删除
+
+```
+
