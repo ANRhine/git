@@ -66,3 +66,7 @@ Git和其他版本控制系统如SVN不同之处在于有**暂存区**的概念.
 
 可以理解为: 需要提交的文件修改通通放在暂存区, 然后一次性提交暂存区的所有修改.
 
+所有可以一次性提交多个文件(比如readme.txt和LICENSE), 提交之后暂存区的状态就变成这样了:
+
+![git-stage](https://cdn.liaoxuefeng.com/cdn/files/attachments/001384907720458e56751df1c474485b697575073c40ae9000/0)
+
