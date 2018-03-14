@@ -153,7 +153,7 @@ $ git push origin master #把本地master分支的最新修改推送至GitHub
 
 现在, 让我们先创建远程库, 再从远程库克隆.
 
-**第1步**, 登录GitHub, 创建一个新的仓库, 名字叫Learn_PyTorch, 勾选Initialize this repository with a README, 这样会自动创建一个README.md文件
+**第1步**, 登录GitHub, 创建一个新的仓库, 名字叫Learn_PyTorch, 勾选**Initialize this repository with a README**, 这样会自动创建一个README.md文件
 
 **第2步**, 从远程库克隆一个本地库:
 
@@ -162,3 +162,48 @@ $ git clone git@github.com:ANRhine/Learn_PyTorch.git #这个地址在GitHub上�
 ```
 
 GitHub给出的地址除了ssh之外, 还可以用https协议, 不过https速度慢, 每次推送必须输入口令.
+
+# 分支管理
+
+分支就是科幻电影里面的平行宇宙, 两个平行宇宙互不干扰, 不过在某个时间点, 两个平行宇宙可以合并.
+
+假设一个项目, 大家协同合作, 你每天都有新的进度, 可以创建一个分支, 别人看不到, 你可以在自己的分支上干活, 想提交就提交, 直到开发完成, 再一次性合并到原来的分支上, 这样, 既安全又不影响别人工作.
+
+## 创建与合并分支
+
+在版本回退部分, 每次提交, Git都会把它们串成一条时间线(一串commit id), 这条时间线就是一个分支. 目前Git里只有一条主分支(master). HEAD严格来说不是指向提交, 而是指向master, master才是指向提交的, 所以HEAD指向的是当前分支.
+
+1.一开始, master分支是一条线, Git用master指向最新的提交, 再用HEAD指向master, 就能确定当前分支, 以及当前分支的提交点, 每次提交，master分支都会向前移动一步，这样，随着你不断提交，master分支的线也越来越长：
+
+![git-br-initial](https://cdn.liaoxuefeng.com/cdn/files/attachments/0013849087937492135fbf4bbd24dfcbc18349a8a59d36d000/0)
+
+2.当我们创建新的分支，例如`dev`时，Git新建了一个指针叫`dev`，指向`master`相同的提交，再把`HEAD`指向`dev`，就表示当前分支在`dev`上：
+
+![git-br-create](https://cdn.liaoxuefeng.com/cdn/files/attachments/001384908811773187a597e2d844eefb11f5cf5d56135ca000/0)
+
+3.从现在开始，对工作区的修改和提交就是针对`dev`分支了，比如新提交一次后，`dev`指针往前移动一步，而`master`指针不变：
+
+![git-br-dev-fd](https://cdn.liaoxuefeng.com/cdn/files/attachments/0013849088235627813efe7649b4f008900e5365bb72323000/0)
+
+4.假如我们在`dev`上的工作完成了，就可以把`dev`合并到`master`上。最简单的方法，就是直接把`master`指向`dev`的当前提交，就完成了合并：
+
+![git-br-rm](https://cdn.liaoxuefeng.com/cdn/files/attachments/001384908867187c83ca970bf0f46efa19badad99c40235000/0)
+
+5.合并完分支后，甚至可以删除`dev`分支。删除`dev`分支就是把`dev`指针给删掉，删掉后，我们就剩下了一条`master`分支：
+
+![git-br-rm](https://cdn.liaoxuefeng.com/cdn/files/attachments/001384908867187c83ca970bf0f46efa19badad99c40235000/0)
+
+```
+$ git checkout -b dev #创建dev分支并切换, 
+*****上面这条命令相当于下面两条命令
+$ git brach dev #创建dev分支
+$ git checkout dev #切换至dev分支
+*********************
+$ git branch #列出所有分支
+*****在dev分支上修改提交后切换到master分支*****
+$ git checkout master #切换至master分支
+$ git merge dev #将dev分支的工作成果合并到master分支上
+$ git branch -d dev #删除dev分支
+$ git brach #发现只有master分支了
+```
+
