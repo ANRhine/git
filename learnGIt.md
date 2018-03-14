@@ -49,5 +49,6 @@ $ git diff readme.md #查看修改内容
 
 ```
 $ git log #查看历史记录
+$ git log --pretty=oneline
 ```
 
