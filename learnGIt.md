@@ -58,7 +58,7 @@ Git和其他版本控制系统如SVN不同之处在于有**暂存区**的概念.
 
 **工作区**(Working Directory): 即电脑里能看到的目录
 
-**版本库**(Repository): 工作区有一个隐藏目录.git, 这个不算工作区, 是Git的版本库. Git的版本库里存了很多东西, 最重要的是**stage**(或者叫index)的暂存区, 还有Git自动创建的第一个分支**master**, 以及指向master的一个指针叫**HEAD**.
+**版本库**(Repository): 工作区有一个隐藏目录.git, 这个不算工作区, 是Git的版本库. Git的版本库里存了很多东西, 最重要的是**暂存区**(stage或是index), 还有Git自动创建的第一个分支**master**, 以及指向master的一个指针叫**HEAD**.
 
 ![git-repo](https://cdn.liaoxuefeng.com/cdn/files/attachments/001384907702917346729e9afbf4127b6dfbae9207af016000/0)
 
@@ -70,3 +70,13 @@ Git和其他版本控制系统如SVN不同之处在于有**暂存区**的概念.
 
 ![git-stage](https://cdn.liaoxuefeng.com/cdn/files/attachments/001384907720458e56751df1c474485b697575073c40ae9000/0)
 
+```
+$ git diff           #是暂存区(stage)和工作区(work dict)的比较
+$ git diff --cached  #是暂存区(stage)和分支(master)的比较
+```
+
+## 管理修改
+
+Git为什么比其他版本控制系统设计的更加优秀, 在于Git跟踪并管理的是修改, 不是文件.
+
+每次修改, 如果不add到暂存区, 那就不会加入到commit中.
