@@ -207,3 +207,71 @@ $ git branch -d dev #删除dev分支
 $ git brach #发现只有master分支了
 ```
 
+## 解决冲突
+
+当Git无法自动合并分支时, 就必须首先解决冲突. 解决冲突后, 再提交, 合并完成.
+
+用git log --graph命令可以看到分支合并图
+
+## 分支管理策略
+
+通常，合并分支时，如果可能，Git会用`Fast forward`模式，但这种模式下，删除分支后，会丢掉分支信息。
+
+如果要强制禁用`Fast forward`模式，Git就会在merge时生成一个新的commit，这样，从分支历史上就可以看出分支信息。
+
+下面实战`--no-ff`方式的`git merge`：
+
+```
+$ git checkout -b dev #创建并切换到dev分支
+$ git add README.md #在对dev分支修改后提交
+$ git commit -m "add branch"
+$ git checkout master #切换到master分支
+$ git merge --no-ff -m "merge with no-ff" dev #准备合并dev分支, --no-ff参数表示禁用Fastforward
+$ git log --graph --pretty=oneline #看一下分支历史
+$ git branch -d dev #删除dev分支
+```
+
+**分支策略**
+
+1.master分支应该是非常稳定的, 一般仅仅用来发布新版本, 平时不能在上面干活
+
+2.dev分支是不稳定的, 到版本发布的时候, 再把dev分支合并到master上, 在master分支发布版本
+
+3.团队协作, 每个人都在dev分支上干活, 都有自己的分支, 时不时地往dev分支上合并就可以了
+
+4.Git分支非常强大, 在团队开发中应该充分应用
+
+5.合并分支时, 加上--no--ff参数可以用普通模式合并, 合并后的历史有分支, 能看出来做过分支, 而fast forward合并看不出曾经做过合并
+
+团队分支看起来像这样:
+
+![git-br-policy](https://cdn.liaoxuefeng.com/cdn/files/attachments/001384909239390d355eb07d9d64305b6322aaf4edac1e3000/0)
+
+## Bug分支
+
+临时接到bug修复任务时, 手头的工作还没有完成没法提交, Git提供了一个stash功能, 可以把当前工作现场"储藏起来", 等以后恢复现场后继续工作:
+
+```
+$ git stash #把当前工作现场“储藏”起来，等以后恢复现场后继续工作
+$ git checkout master #假定需要在master分支上修复, 就从master创建临时分支
+$ git checkout -b issue-101 #创建bug修复分支并切换
+*****然后修复bug并且提交*****
+$ git checkout master #切换回master
+$ git merge --no-ff -m "merged bug fix 101" issue-101 #将issue-101分支合并
+$ git branch -d issure-101 #删除issue-101分支
+*****回到dev分支继续工作****
+$ git stash list #查看刚才的工作现场
+$ git stash pop #恢复工作现场并把stash内容删除
+$ git stash list #查看发现没有任何stash内容
+
+```
+
+修复bug时，我们会通过创建新的bug分支进行修复，然后合并，最后删除；
+
+当手头工作没有完成时，先把工作现场`git stash`一下，然后去修复bug，修复后，再`git stash pop`，回到工作现场。
+
+## Feature分支
+
+开发一个新feature，最好新建一个分支；
+
+如果要丢弃一个没有被合并过的分支，可以通过`git branch -D <name>`强行删除。
