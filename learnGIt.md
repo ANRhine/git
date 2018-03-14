@@ -122,12 +122,43 @@ $ ls -ah #会出现.ssh文件夹,内有id_rsa(私钥)和id_rsa.pub(公钥)两个
 
 实现本地库与远程库同步, GitHub上的仓库既可以作为备份, 又可以让其他人通过该仓库来协作.
 
-第1步, 登录GitHub, "Create a new repository", 创建一个新仓库, 保持默认设置创建即可.
+**第1步,** 登录GitHub, "Create a new repository", 创建一个新仓库, 保持默认设置创建即可.
 
-第2步, 根据GitHub提示, 在本地的git仓库下运行命令:
+**第2步**, 根据GitHub提示, 在本地的git仓库下运行命令:
 
 ```
 $ git remote add origin git@github.com:ANRhine/git.git #ANRhine是自己的GitHub账户名, origin是Git远程库的默认叫法
 $ git push -u origin master #把本地库的所有内容推送到远程库上, 第一次推送需要加上-u参数, 之后可简化
 ```
 
+推送成功后, 可以立刻在GitHub页面中看到远程库的内容已经和本地一模一样.
+
+从现在起, 只要本地做了提交, 就可以通过命令:
+
+```
+$ git push origin master #把本地master分支的最新修改推送至GitHub
+```
+
+现在, 你就拥有了真正的分布式版本库!
+
+**SSH警告**
+
+(这个虽然还没遇到, 也写上, 以防万一.)
+
+当你第一次使用git clone或者git push时, 会得到一个警告, 需要你确认GitHub的Key的指纹信息是否真的来自GitHub的服务器, 输入yes回车即可.
+
+## 从远程库克隆
+
+上面是将先有本地库, 再有远程库的时候, 如何关联远程库.
+
+现在, 让我们先创建远程库, 再从远程库克隆.
+
+**第1步**, 登录GitHub, 创建一个新的仓库, 名字叫Learn_PyTorch, 勾选Initialize this repository with a README, 这样会自动创建一个README.md文件
+
+**第2步**, 从远程库克隆一个本地库:
+
+```
+$ git clone git@github.com:ANRhine/Learn_PyTorch.git #这个地址在GitHub上可以直接复制
+```
+
+GitHub给出的地址除了ssh之外, 还可以用https协议, 不过https速度慢, 每次推送必须输入口令.
