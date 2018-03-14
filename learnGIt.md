@@ -80,3 +80,12 @@ $ git diff --cached  #是暂存区(stage)和分支(master)的比较
 Git为什么比其他版本控制系统设计的更加优秀, 在于Git跟踪并管理的是修改, 不是文件.
 
 每次修改, 如果不add到暂存区, 那就不会加入到commit中.
+
+## 撤销修改
+
+```
+$ git checkout -- readme.md #当改乱了工作区某个文件的内容,想要丢弃工作区的修改时,用这个命令
+$ git reset HEAD readme.md #已经把内容git add之后想要撤回,需要先用这个命令,再用git checkout命令
+$ git git reset -hard 326382 #已经把内容git commit之后想要撤回,就用版本回退命令
+```
+
