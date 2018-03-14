@@ -1,12 +1,12 @@
 # Git简介
 
-Git是目前世界上最先进的分布式版本控制系统.
+Git是目前世界上最先进的**分布式版本控制系统**.
 
 集中式版本控制系统, 版本库集中存放在中央服务器, 必须联网才能工作. (如CVS, SVN)
 
 分布式版本控制系统没有中央服务器, 每个节点都是一个完整的版本库, 其安全性高, 不需联网也可使用.
 
-**安装Git**
+##安装Git
 
 Linux
 
@@ -14,9 +14,11 @@ Linux
 $ sudo apt-get install git
 ```
 
-**创建版本库(repository)**
+##创建版本库(repository)
 
 可以理解成一个目录, 里面所有文件可以被Git管理起来
+
+把文件往Git版本库里添加或修改, 都是两步走: 先是git add, 然后git commit
 
 ```
 $ mkdir git #创建一个空目录
@@ -40,13 +42,27 @@ $ git status #查看当前仓库状态, 告诉你哪些文件被修改过
 $ git diff readme.md #查看修改内容
 ```
 
-**版本回退**
+### 版本回退
 
 ```
 $ git log #查看历史记录
 $ git log --pretty=oneline #查看历史记录, 一条条的显示
-$ git reset -hard HEAD^ #回退到上一个版本
-$ git reset -hard 65244 #回退到任意一个版本, 数字是commit id, 在之前的git log里面可以看到
-$ git reflog #记录每一次命令, 因此可以去过去任意一个版本, 也可以去之前去过的未来
+$ git reset -hard HEAD^ #回退到上一个版本, HEAD指向当前版本
+$ git reset -hard 326382 #回退到任意一个版本, 数字是commit id, 在之前的git log里面可以看到
+$ git reflog #查看命令历史, 因此可以去过去任意一个版本, 也可以去之前去过的未来
 ```
+
+### 工作区和暂存区
+
+Git和其他版本控制系统如SVN不同之处在于有**暂存区**的概念.
+
+**工作区**(Working Directory): 即电脑里能看到的目录
+
+**版本库**(Repository): 工作区有一个隐藏目录.git, 这个不算工作区, 是Git的版本库. Git的版本库里存了很多东西, 最重要的是**stage**(或者叫index)的暂存区, 还有Git自动创建的第一个分支**master**, 以及指向master的一个指针叫**HEAD**.
+
+![git-repo](https://cdn.liaoxuefeng.com/cdn/files/attachments/001384907702917346729e9afbf4127b6dfbae9207af016000/0)
+
+我们创建Git版本库时, Git自动创建了唯一一个分支master, 所以git commit就是往master分支上提交更改.
+
+可以理解为: 需要提交的文件修改通通放在暂存区, 然后一次性提交暂存区的所有修改.
 
